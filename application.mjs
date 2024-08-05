@@ -3,7 +3,7 @@ import { createClient, commandOptions } from 'redis'
 import { Command, Option } from 'commander'
 import { assert } from 'console'
 import { resolve } from 'path'
-import { readFileSync } from 'fs'
+import { readFileSync, existsSync } from 'fs'
 
 import winston from 'winston';
 
@@ -114,12 +114,17 @@ class Application {
     .parse(process.argv)
 
     this.program_options = program.opts()
+    // add a protection
+    if(! existsSync(this.program_options.config)){
+      console.log("Check command line, cannot open "+ this.program_options.config)
+      this.finalize()
+    }
     this.options = JSON.parse(readFileSync(this.program_options.config, 'utf8'));
 
     // display help
     if (this.options.help) {
       program.outputHelp()
-      this.finalize()
+      process.exit(2)
     }
     // logger
     let logLevel = "info"

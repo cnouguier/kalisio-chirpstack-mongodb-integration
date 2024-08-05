@@ -11,4 +11,4 @@ RUN npm install
 COPY *.mjs ./
 
 # Specify the entry point command
-CMD ["node", "chirpstack-stream-consumer.mjs"]
+CMD ["node", "main.mjs"]
