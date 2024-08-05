@@ -60,11 +60,7 @@ The micro service is configured using a json file, the default file is `config.j
 | redisPassword  |               | Redis password                                 |
 | disableWrite   | false         | Don't push to MongoDB                          |
 | cleanMongoDB   | false         | Delete objects from Chirpstack collections     |
-| mongoDB        | kano          | MongoDB name                                   |
-| mongoUser      |               | Mongo user name                                |
-| mongoPassword  |               | Mongo password                                 |
-| mongoPort      | 27017         | Mongo port                                     |
-| mongoHost      | localhost     | Mongo host                                     |
+| mongoUrl       |               | MongoDB url, with the database!                |
 | gRPCServer     | 127.0.0.1:8080| Host for gRPC calls (chirpstack server)        |
 | apiToken       |               | Token for gRPC calls (found in chirpstack UI)  |
 | logLevel       | info          | info, error, warn (see [Winston doc](https://github.com/winstonjs/winston?tab=readme-ov-file#logging-levels))           |
@@ -156,7 +152,7 @@ A shell script `build.sh` is provided to aggregate command to build and push on 
 As the micro-service is in its early stages, some point can be improved.
 Consider the following list as potential futures evolutions:
 
-  * [ ] use a logging service like [winston](https://github.com/winstonjs/winston)
+  * [X] use a logging service like [winston](https://github.com/winstonjs/winston)
   * [X] use a JSON config file to replace too many command line opions. Probable use of [config](https://www.npmjs.com/package/config)
   * [ ] add a support for tenant. The idea behind is to separate the storage of the different data in different database. To isolate data that can come from different users.
   * [ ] add a TTL support for the observations collection
@@ -173,9 +169,7 @@ The easiest  way to develop is:
 
 Example of commande line:
 ```shell
-node ./chirpstack-stream-consumer.mjs --redisPassword MYREDISPWD \
---gRPCServer localhost:8080  --apiToken MYTOKEN \
---mongoUser chirpstack --mongoPassword chirpstack
+node ./chirpstack-stream-consumer.mjs -c config-debug.js
 ```
 
 A simple docker compose can be used:

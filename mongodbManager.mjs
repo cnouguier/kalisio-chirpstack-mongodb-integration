@@ -22,19 +22,18 @@ class MongoDBManager {
 
   /**
      * Must be called to initialize the module
-    * @param {string} dbHost
-    * @param {string} dbName
-     * @param {string} dbPort
-     * @param {string} dbUser
-     * @param {string} dbPassword
+     * @param {string} mongoDbUrl
      */
-  setDBInfo (dbHost, dbName, dbPort, dbUser, dbPassword) {
-    this.dbHost = dbHost
-    this.dbName = dbName
-    this.dbPort = dbPort
-    this.dbUser = dbUser
-    this.dbPassword = dbPassword
-    this._mongoURI = `mongodb://${this.dbUser}:${this.dbPassword}@${this.dbHost}:${this.dbPort}/${this.dbName}`
+  setDBInfo (mongoDbUrl) {
+    this._mongoURI = mongoDbUrl
+    // extract db dbname
+    let url_elements = mongoDbUrl.split('/')
+    if(url_elements.length != 4){
+      application.logger.error(`Configuration error, invalid mongo url ${mongoDbUrl}`)
+      process.exit(4)
+    } else {
+      this.dbName = url_elements[3]
+    }
   }
 
   /**

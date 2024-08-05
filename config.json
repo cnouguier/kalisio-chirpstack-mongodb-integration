@@ -4,11 +4,7 @@
     "redisPassword": "",
     "disableWrite": false,
     "cleanMongoDB": false,
-    "mongoDB": "kano",
-    "mongoUser": "",
-    "mongoPassword": "",
-    "mongoPort": 27017,
-    "mongoHost": "localhost",
+    "mongoUrl": "",
     "gRPCServer": "127.0.0.1:8080",
     "apiToken": "",
     "logLevel": "debug"

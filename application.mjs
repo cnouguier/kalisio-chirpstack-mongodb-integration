@@ -143,11 +143,7 @@ class Application {
 
     // initialization of the managers: mongoDB, gateway with gRPC
     mongoDBManager.setDBInfo(
-      this.options.mongoHost,
-      this.options.mongoDB,
-      this.options.mongoPort,
-      this.options.mongoUser,
-      this.options.mongoPassword
+      this.options.mongoUrl
     )
     gatewayManager.setServerInfo(this.options.gRPCServer, this.options.apiToken)
     await gatewayManager.initialize()
