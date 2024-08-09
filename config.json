@@ -7,5 +7,6 @@
     "mongoUrl": "",
     "gRPCServer": "127.0.0.1:8080",
     "apiToken": "",
-    "logLevel": "debug"
+    "logLevel": "debug",
+    "observationsTTL": 604800
   }

@@ -64,6 +64,7 @@ The micro service is configured using a json file, the default file is `config.j
 | gRPCServer     | 127.0.0.1:8080| Host for gRPC calls (chirpstack server)        |
 | apiToken       |               | Token for gRPC calls (found in chirpstack UI)  |
 | logLevel       | info          | info, error, warn (see [Winston doc](https://github.com/winstonjs/winston?tab=readme-ov-file#logging-levels))           |
+| observationsTTL| 604800 (a week) | time before delete observations  |
 
 ### detailled description
 

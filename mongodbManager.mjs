@@ -17,6 +17,7 @@ class MongoDBManager {
     this.dbPassword = ''
     this.stationsCollection = 'chirpstack-stations'
     this.observationsCollection = 'chirpstack-observations'
+    this.ttlIndexName = 'ttl_index'
     this._mongoUri = ''
   }
 
@@ -33,6 +34,35 @@ class MongoDBManager {
       process.exit(4)
     } else {
       this.dbName = url_elements[3]
+    }
+  }
+
+  /**
+   * Add a TTL for the observation collection
+   * After this timeout, values are automatically deleted by mongodb
+   * @param {integer} ttl
+   */
+  async setTTLValue (ttl) {
+    const client = new MongoClient(this._mongoURI)
+
+    try {
+      const db = client.db(this.dbName)
+
+      // index deletion is required
+      let indexExists = await db.collection(this.observationsCollection).indexExists(this.ttlIndexName)
+      if(indexExists){
+        await db.collection(this.observationsCollection).dropIndex(this.ttlIndexName)
+        application.logger.debug("Old index deleted")
+      }
+      application.logger.info(`Create the TTL index for ${this.observationsCollection} value ${ttl}`)
+      await db.collection(this.observationsCollection).createIndex(
+        { 'time': 1},
+        {expireAfterSeconds: parseInt(ttl), name: this.ttlIndexName} )
+
+    }catch (error) {
+      application.logger.warn(`Error setting the TTL ${this.observationsCollection}: ${error}`)
+    } finally {
+      await client.close()
     }
   }
 

@@ -145,6 +145,7 @@ class Application {
     mongoDBManager.setDBInfo(
       this.options.mongoUrl
     )
+    mongoDBManager.setTTLValue(this.options.observationsTTL)
     gatewayManager.setServerInfo(this.options.gRPCServer, this.options.apiToken)
     await gatewayManager.initialize()
     await mongoDBManager.syncStations(gatewayManager.gateways)
