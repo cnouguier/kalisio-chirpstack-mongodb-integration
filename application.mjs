@@ -147,14 +147,15 @@ class Application {
     )
     mongoDBManager.setTTLValue(this.options.observationsTTL)
     gatewayManager.setServerInfo(this.options.gRPCServer, this.options.apiToken)
-    await gatewayManager.initialize()
-    await mongoDBManager.syncStations(gatewayManager.gateways)
 
     if (this.options.cleanMongoDB) {
       logger.info('Clean existing observations and stations in MongoDB')
       await mongoDBManager.deleteCollection(mongoDBManager.observationsCollection)
       await mongoDBManager.deleteCollection(mongoDBManager.stationsCollection)
     }
+
+    await gatewayManager.initialize()
+    await mongoDBManager.syncStations(gatewayManager.gateways)
 
     assert(gatewayManager.gateways !== null)
     assert(Object.keys(gatewayManager.gateways).length > 0)
